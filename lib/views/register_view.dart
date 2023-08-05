@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'dart:developer' as devtools show log;
 
+import 'package:flutter_application_1/constants/routes.dart';
+
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -78,7 +80,7 @@ class _RegisterViewState extends State<RegisterView> {
           TextButton(
             onPressed: () {
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/login/', (route) => false);
+                  .pushNamedAndRemoveUntil(loginRoute, (route) => false);
             },
             child: Text('Already registered? Login here!'),
           )
