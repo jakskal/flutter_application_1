@@ -8,6 +8,8 @@ import 'package:flutter_application_1/views/register_view.dart';
 import 'firebase_options.dart';
 import 'dart:developer' as devtools show log;
 
+import 'utilities/show_error_dialog.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
@@ -105,30 +107,4 @@ class _NotesViewState extends State<NotesView> {
       body: const Text('Hello world'),
     );
   }
-}
-
-Future<bool> showLogoutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Sign out'),
-        content: const Text('Are you sure want to sign out?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: Text('Log out'),
-          )
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }
