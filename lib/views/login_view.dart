@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 import 'package:flutter_application_1/constants/routes.dart';
 
@@ -34,7 +33,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Column(
         children: [
@@ -61,8 +60,6 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                devtools.log("hello2w");
-
                 await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
@@ -85,13 +82,11 @@ class _LoginViewState extends State<LoginView> {
                 } else {
                   await showErrorDialog(
                     context,
-                    'Error: ${e.code}',
+                    'Error: ${e.toString()}',
                   );
                 }
               } catch (e) {
-                devtools.log("hellow");
-                devtools.log(e.toString());
-                await showErrorDialog(context, e.toString());
+                await showErrorDialog(context, 'Error: ${e.toString()}');
               }
             },
             child: const Text('Login'),
