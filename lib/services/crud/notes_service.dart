@@ -322,7 +322,7 @@ const idColumn = 'id';
 const emailColumn = 'email';
 const userIdColumn = 'user_id';
 const textColumn = 'text';
-const isSyncedWithCloudColumn = 'is_synced_with_cloud';
+const isSyncedWithCloudColumn = 'is_sync_with_cloud';
 const createUserTable = '''CREATE TABLE IF NOT EXISTS "user" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT
@@ -332,7 +332,7 @@ const createNoteTable = '''CREATE TABLE IF NOT EXISTS "note" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,
   "text" TEXT, 
-  is_sync_with_cloud INTEGER DEFAULT (0),
+  is_synced_with_cloud INTEGER DEFAULT (0),
   FOREIGN KEY ("user_id") REFERENCES "user"("id")
   );
 ''';
