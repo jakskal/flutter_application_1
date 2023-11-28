@@ -45,20 +45,25 @@ class NotesService {
     _noteStreamController.add(_notes);
   }
 
-  Future<DatabaseNote> updateNote(
-      {required DatabaseNote note, required String text}) async {
+  Future<DatabaseNote> updateNote({
+    required DatabaseNote note,
+    required String text,
+  }) async {
     await _ensureDbIsOpen();
-
     final db = _getDatabaseOrThrow();
 
     // make sure note exist
     await getNote(id: note.id);
 
     // update db
-    final updatesCount = await db.update(noteTable, {
-      textColumn: text,
-      isSyncedWithCloudColumn: 0,
-    });
+    final updatesCount = await db.update(
+        noteTable,
+        {
+          textColumn: text,
+          isSyncedWithCloudColumn: 0,
+        },
+        where: 'id = ?',
+        whereArgs: [note.id]);
 
     if (updatesCount == 0) {
       throw CouldNotUpdateNote();
@@ -78,7 +83,6 @@ class NotesService {
     final notes = await db.query(
       noteTable,
     );
-
     return notes.map((e) => DatabaseNote.fromRow(e));
   }
 
@@ -132,6 +136,7 @@ class NotesService {
   }
 
   Future<DatabaseNote> createNote({required DatabaseUser owner}) async {
+    await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
     // make sure owner exist in the database with the correct id
@@ -251,7 +256,6 @@ class NotesService {
       final dbPath = join(docsPath.path, dbName);
       final db = await openDatabase(dbPath);
       _db = db;
-
       // create the user table;
 
       db.execute(createUserTable);
@@ -311,7 +315,7 @@ class DatabaseNote {
 
   @override
   String toString() {
-    return 'Note, ID = $id, email = $id, userID = $userId, isSyncedWithcloud = $isSyncedWithCloud, text = $text';
+    return 'Note, ID = $id, userID = $userId, isSyncedWithcloud = $isSyncedWithCloud, text = $text';
   }
 
   @override
@@ -321,14 +325,14 @@ class DatabaseNote {
   int get hashCode => id.hashCode;
 }
 
-const dbName = 'notes.db';
+const dbName = 'newnotes.db';
 const noteTable = 'note';
 const userTable = 'user';
 const idColumn = 'id';
 const emailColumn = 'email';
 const userIdColumn = 'user_id';
 const textColumn = 'text';
-const isSyncedWithCloudColumn = 'is_sync_with_cloud';
+const isSyncedWithCloudColumn = 'is_synced_with_cloud';
 const createUserTable = '''CREATE TABLE IF NOT EXISTS "user" (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT
