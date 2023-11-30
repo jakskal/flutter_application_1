@@ -64,7 +64,7 @@ class _RegisterViewState extends State<RegisterView> {
                   email: email,
                   password: password,
                 );
-                final user = AuthService.firebase().currentUser;
+                // final user = AuthService.firebase().currentUser;
 
                 AuthService.firebase().sendEmailVerification();
                 if (!mounted) return;
@@ -87,7 +87,7 @@ class _RegisterViewState extends State<RegisterView> {
               Navigator.of(context)
                   .pushNamedAndRemoveUntil(loginRoute, (route) => false);
             },
-            child: Text('Already registered? Login here!'),
+            child: const Text('Already registered? Login here!'),
           )
         ],
       ),
